@@ -47,10 +47,10 @@ int Deadlock::processMessage(const std::string &topic, const std::string &messag
             state = "Locked";
             gpioWrite(PIN, 0); // Set the GPIO pin to HIGH to lock
         }
-        else if ((command == "unlock") && (state != "Unlokced"))
+        else if ((command == "unlock") && (state != "Unlocked"))
         {
             std::cout << "Unlock command received for ID " << uniqueId << std::endl;
-            state = "Unlokced";
+            state = "Unlocked";
             gpioWrite(PIN, 1); // Set the GPIO pin to LOW to unlock
         }
         else
