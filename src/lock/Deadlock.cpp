@@ -1,10 +1,15 @@
 #include "Deadlock.hpp"
 #include <iostream>
 
-Deadlock::Deadlock(const std::string &endpoint, const std::string &certPath, const std::string &keyPath, const std::string &clientId)
+Deadlock::Deadlock(const std::string &endpoint, const std::string &certPath, const std::string &keyPath, const std::string &clientId)   
     : mqtt(endpoint, certPath, keyPath, clientId)
 {
     state = "";
+    if (gpioInitialise() < 0)
+    {
+        std::cerr << "pigpio initialization failed." << std::endl;
+    }
+    gpioSetMode(PIN, PI_OUTPUT); // Set the GPIO pin to output mode
 }
 
 void Deadlock::start()
