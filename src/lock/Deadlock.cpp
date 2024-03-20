@@ -68,8 +68,7 @@ int Deadlock::processMessage(const std::string &topic, const std::string &messag
     }
     else
     {
-        // If the topic does not have enough parts, log it as an error or unexpected format
-        std::cout << "Received message with unexpected topic format: " << topic << " payload "<< message <<std::endl;
+        std::cout << "Received message on topic: " << topic << " with payload: "<< message <<std::endl;
         return 1;
     }
 
