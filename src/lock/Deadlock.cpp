@@ -1,8 +1,8 @@
 #include "Deadlock.hpp"
 #include <iostream>
 
-Deadlock::Deadlock(const std::string &endpoint, const std::string &certPath, const std::string &keyPath, const std::string &clientId)   
-    : mqtt(endpoint, certPath, keyPath, clientId)
+Deadlock::Deadlock(const std::string& address, const std::string &clientId)
+    : mqtt(address, clientId)
 {
     state = "";
     if (gpioInitialise() < 0)
@@ -27,7 +27,7 @@ void Deadlock::start()
     }
 
     // Lambda function to handle messages
-    auto handleMessage = [this](const std::string &topic, std::string message) -> int
+    auto handleMessage = [this](const std::string &topic, Json message) -> int
     {
         return this->processMessage(topic, message);
     };
@@ -35,7 +35,7 @@ void Deadlock::start()
     mqtt.subscribe("System/deadbolt/#", handleMessage);
 }
 
-int Deadlock::processMessage(const std::string &topic, const std::string &message)
+int Deadlock::processMessage(const std::string &topic, Json &message)
 {
     // Split the topic to extract the command and unique ID
     std::vector<std::string> topicParts;
@@ -73,9 +73,9 @@ int Deadlock::processMessage(const std::string &topic, const std::string &messag
         // Publish the state
         Json statePayload;
         statePayload["state"] = state;
-        std::string payload = statePayload.dump();
+        // std::string payload = statePayload.dump();
 
-        mqtt.publish("System/deadbolt/status", payload, true);
+        mqtt.publish("System/deadbolt/status", statePayload, true);
     }
     else
     {

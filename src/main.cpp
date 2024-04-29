@@ -2,7 +2,7 @@
  * Equal Safe lock system
  * Author: Fadi Jarray
  *
- * Daemon responsible for lock/unlock commands and maintaining the statuses of multiple access points. 
+ * Daemon responsible for lock/unlock commands and maintaining the statuses of multiple access points.
  * © Equal Safe. All rights reserved.
  */
 
@@ -13,8 +13,9 @@ int main() {
     std::string certPath = "/project/src/certs/safe.cert.pem";
     std::string keyPath = "/project/src/certs/safe.private.key";
     std::string clientId = "lock_sys";
+    std::string address = "tcp://127.0.0.1:1883";
 
-    Deadlock deadlock(endpoint, certPath, keyPath, clientId);
+    Deadlock deadlock(address, clientId);
     deadlock.start();
 
     while (true) {
