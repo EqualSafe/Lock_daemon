@@ -10,7 +10,7 @@ To use this project, follow these steps after cloning the repository:
 1. Inside the `src` folder of this project, create a new folder named `certs`.
 2. Place all necessary AWS certificates inside the `certs` folder. These are required for AWS IoT integration.
 
-### Build Instructions
+### Build Instructions (DEV)
 
 You can build the project using Docker by following these steps:
 
@@ -47,6 +47,40 @@ You can build the project using Docker by following these steps:
 
 The binary will be located in the `build` directory and named `./lock_sys`.
 
-### Running the Project
+### Running the Project (DEV)
 
 After building, you can run `./lock_sys` to start the daemon.
+
+### Deployment Instructions (PROD)
+
+To deploy the `lock_daemon`, use the following steps:
+
+1. Pull the Docker image:
+    ```bash
+    docker pull fjarr/lock_daemon:latest
+    ```
+
+2. Deploy the service using systemd:
+
+    - Copy the content of the file in /rootfs/etc/systemd/system/lock_daemon.service to /etc/systemd/system/lock_daemon.service
+    you can use:
+    ```
+    sudo nano /etc/systemd/system/lock_daemon.service
+    ```
+
+
+3. Reload systemd to recognize the new service:
+    ```bash
+    sudo systemctl daemon-reload
+    ```
+
+4. Enable the service to start on boot, and start the service:
+    ```bash
+    sudo systemctl enable lock_daemon.service
+    sudo systemctl start lock_daemon.service
+    ```
+
+5. Verify the service is running correctly:
+    ```bash
+    sudo systemctl status lock_daemon.service
+    ```

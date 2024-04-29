@@ -12,6 +12,12 @@ Deadlock::Deadlock(const std::string &endpoint, const std::string &certPath, con
     gpioSetMode(PIN, PI_OUTPUT); // Set the GPIO pin to output mode
 }
 
+Deadlock::~Deadlock()
+{
+    gpioTerminate();
+    mqtt.disconnect();
+}
+
 void Deadlock::start()
 {
     if (mqtt.connect() != 0)
@@ -82,5 +88,6 @@ int Deadlock::processMessage(const std::string &topic, const std::string &messag
 
 void Deadlock::stop()
 {
+    gpioTerminate();
     mqtt.disconnect();
 }

@@ -23,6 +23,7 @@ public:
     std::string state;
 
     Deadlock(const std::string &endpoint, const std::string &certPath, const std::string &keyPath, const std::string &clientId);
+    ~Deadlock();
     void start();
     void stop();
 

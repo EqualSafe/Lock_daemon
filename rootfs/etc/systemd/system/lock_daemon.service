@@ -1,0 +1,13 @@
+[Unit]
+Description=Lock Daemon Service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --privileged --rm --name lock_daemon fjarr/lock_daemon:latest
+ExecStop=/usr/bin/docker stop lock_daemon
+ExecStopPost=/usr/bin/docker rm lock_daemon
+
+[Install]
+WantedBy=multi-user.target
